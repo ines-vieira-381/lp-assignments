@@ -6,7 +6,7 @@ def clean_data(region='PT'):
     THIS IS A DOCSTRING Load and clean data
     '''
 
-    df = pd.read_csv("life_expectancy\\data\\eu_life_expectancy_raw.tsv", sep='\t')
+    df = pd.read_csv("life_expectancy/data/eu_life_expectancy_raw.tsv", sep='\t')
 
     df[['unit', 'sex', 'age', 'region']] = df['unit,sex,age,geo\\time'].str.split(',', expand=True)
 
