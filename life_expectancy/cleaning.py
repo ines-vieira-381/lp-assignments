@@ -1,5 +1,9 @@
 import argparse
+import os
 import pandas as pd
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(SCRIPT_DIR, 'data')
 
 def load_data(path: str) -> pd.DataFrame:
     '''
@@ -62,15 +66,10 @@ def save_data(df: pd.DataFrame, path: str) -> None:
     Parameters:
         df (pd.dataFrame): dataframe of the data that will be saved in a csv file.
         path (str): path to save the data on.
-
-    Returns:
-        None
     '''
     return df.to_csv(path, index=False)
 
-def main(country: str,
-         input_path: str = 'life_expectancy/data/eu_life_expectancy_raw.tsv' ,
-         output_path: str = 'life_expectancy/data/pt_life_expectancy.csv') -> None:
+def main(country: str = 'PT') -> None:
     '''
 
     Function that loads, cleans and saves the pretended data using the
@@ -78,12 +77,12 @@ def main(country: str,
 
     Parameters:
         country (str): Country code to filter by.
-        input_path (str): path of the data to be cleaned
-        output_path (str): path to save the cleaned data
-    
-    Returns:
-        None
     '''
+
+    input_path = os.path.join(DATA_PATH, 'eu_life_expectancy_raw.tsv')
+    output_file_name = f'{country.lower()}_life_expectancy.csv'
+    output_path = os.path.join(DATA_PATH, output_file_name)
+
     data_loaded = load_data(path=input_path)
     data_cleaned = clean_data(df=data_loaded, region=country)
     save_data(df=data_cleaned, path=output_path)
@@ -93,11 +92,5 @@ if __name__ == "__main__":  # pragma: no cover
     parser.add_argument('--country', type=str,
                         default='PT',
                         help="Country code (default: PT).")
-    parser.add_argument('--input_path', type=str,
-                        default='life_expectancy/data/eu_life_expectancy_raw.tsv',
-                        help='Path of the input data file.')
-    parser.add_argument('--output_path', type=str,
-                        default='life_expectancy/data/pt_life_expectancy.csv',
-                        help='Path to save the data.')
     args = parser.parse_args()
-    main(args.country, args.input_path, args.output_path)
+    main(args.country)
