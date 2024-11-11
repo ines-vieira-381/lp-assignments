@@ -4,9 +4,9 @@ import sys
 from unittest.mock import patch
 import pandas as pd
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from cleaning import clean_data
-from loading_saving import load_data, save_data
+#sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from life_expectancy.cleaning import clean_data
+from life_expectancy.loading_saving import load_data, save_data
 
 def test_clean_data(eu_life_expectancy_raw_sample, eu_life_expectancy_raw_sample_expected):
     """ 
