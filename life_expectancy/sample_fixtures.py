@@ -2,12 +2,13 @@ import argparse
 import os
 import pandas as pd
 from cleaning import clean_data 
+from life_expectancy.regions import Regions
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_PATH, 'data')
 FIXTURES_PATH = os.path.join(BASE_PATH, 'tests\\fixtures\\')
 
-def creating_new_fixtures(country = 'PT'):
+def creating_new_fixtures(country: Regions = Regions.PT):
     '''
     Function to create new fixtures.
     '''
@@ -20,7 +21,7 @@ def creating_new_fixtures(country = 'PT'):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--country', type=str, default='PT',
+    parser.add_argument('--country', type=lambda x: Regions[x], default=Regions.PT,
                         help='Country code to filter data (default: PT)')
     args = parser.parse_args()
     creating_new_fixtures(args.country)

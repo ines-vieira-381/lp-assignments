@@ -1,6 +1,7 @@
 import pandas as pd
+from life_expectancy.regions import Regions
 
-def clean_data(df: pd.DataFrame, region: str = 'PT') -> pd.DataFrame:
+def clean_data(df: pd.DataFrame, region: Regions = Regions.PT) -> pd.DataFrame:
     '''
     Function to clean the data. Unpivots the data, ensures that year is an int,
     ensures value is a float, removes the Nan values and
@@ -39,4 +40,4 @@ def clean_data(df: pd.DataFrame, region: str = 'PT') -> pd.DataFrame:
     df['value'] = df['value'].astype(float)
 
     # Filtering the data by the chosen country
-    return df[df['region'] == region]
+    return df[df['region'] == region.name]
