@@ -1,6 +1,6 @@
 from unittest.mock import patch
 import pandas as pd
-from life_expectancy.loading_saving import load_data, save_data
+from life_expectancy.loading_saving import load_data_tsv, load_data_json, save_data
 
 def test_load_data(eu_life_expectancy_raw_sample):
     """ 
@@ -8,8 +8,17 @@ def test_load_data(eu_life_expectancy_raw_sample):
     """
 
     with patch('pandas.read_csv', return_value=eu_life_expectancy_raw_sample):
-        data = load_data("the_data_path.csv")
+        data = load_data_tsv("the_data_path.csv")
         assert data.equals(eu_life_expectancy_raw_sample)
+
+def test_load_data_json(eurostat_json_sample):
+    """ 
+    Function to test if the load_data function correctly loads the data.
+    """
+
+    with patch('pandas.read_json', return_value=eurostat_json_sample):
+        data = load_data_json("the_data_path.json")
+        assert data.equals(eurostat_json_sample)
 
 def test_save_data():
     """ 
