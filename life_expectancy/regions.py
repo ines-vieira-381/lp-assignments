@@ -1,5 +1,3 @@
-import pandas as pd
-import os
 from enum import Enum, auto
 
 class Regions(Enum):
@@ -60,10 +58,6 @@ class Regions(Enum):
     UA = auto()
     UK = auto()
     XK = auto()
-
-    def lower(self):
-        """Function to return the region name in lowercase"""
-        return self.name.lower()
 
     @classmethod
     def verify_regions(cls):

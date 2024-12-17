@@ -6,13 +6,6 @@ def clean_data(df: pd.DataFrame, region: Regions = Regions.PT) -> pd.DataFrame:
     Function to clean the data. Unpivots the data, ensures that year is an int,
     ensures value is a float, removes the Nan values and
     filters the data by the country code (default = 'PT').
-
-    Parameters:
-        df (pd.DataFrame): dataframe of the data to be cleaned.
-        region (str): country code to filter the data by, the default is 'PT'.
-
-    Returns:
-        pd.DataFrame: dataframe of the cleaned data.
     '''
 
     # Unpivoting the data
@@ -37,6 +30,25 @@ def clean_data(df: pd.DataFrame, region: Regions = Regions.PT) -> pd.DataFrame:
     df['value'] = df['value'].str.replace(r'[^\d.-]', '', regex=True)
     df = df.dropna(subset=['value'])
 
+    df['value'] = df['value'].astype(float)
+
+    # Filtering the data by the chosen country
+    return df[df['region'] == region.name]
+
+def clean_data_json(df: pd.DataFrame, region: Regions = Regions.PT) -> pd.DataFrame:
+    '''
+    Function to clean the data. Unpivots the data, ensures that year is an int,
+    ensures value is a float, removes the Nan values and
+    filters the data by the country code (default = 'PT').
+    '''
+
+    # Changing the columns names and erasing the ones not needed
+    df.rename(columns={'country': 'region'}, inplace = True)
+    df.rename(columns={'life_expectancy': 'value'}, inplace = True)
+    df.drop(columns=['flag', 'flag_detail'], inplace = True)
+
+    # Making sure year is of int type and that the value is a float
+    df['year'] = df['year'].astype(int)
     df['value'] = df['value'].astype(float)
 
     # Filtering the data by the chosen country
